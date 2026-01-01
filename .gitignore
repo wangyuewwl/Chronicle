@@ -28,6 +28,9 @@ yarn-error.log*
 chronicle-*-20*.html
 chronicle-*-20*.md
 
+# Releases folder (local version history only)
+releases/
+
 # Keep only the hook and package files for sharing
 !chronicle.kiro.hook
 !Chronicle-Hook-*.zip
