@@ -4,16 +4,27 @@
 
 Chronicle is an intelligent agent hook that automatically captures, analyzes, and documents collaborative work sessions between users and AI assistants. It creates comprehensive reports that track the entire journey from problem identification to solution delivery.
 
-## 🎨 NEW: Standardized Design System (v2.1)
+## 🚀 Quick Start (Single File Solution)
 
-Chronicle now includes a **fixed design system** that ensures consistent, professional HTML output across all workspaces:
+**Just copy one file to get started:**
+
+```bash
+# Copy the main hook file to your workspace
+cp chronicle-embedded.kiro.hook /path/to/your/workspace/chronicle.kiro.hook
+```
+
+That's it! Chronicle is now ready to document your sessions with consistent, professional styling.
+
+## 🎨 Standardized Design System (v2.1)
+
+Chronicle includes a **fixed design system** that ensures consistent, professional HTML output across all workspaces:
 
 - ✅ **Identical Visual Design**: Same styling, colors, and layout every time
 - ✅ **Interactive Features**: Filters, sorting, and dual themes always work
 - ✅ **Professional Quality**: Reference-level design in every workspace
-- ✅ **Template-Based**: Uses standardized components and patterns
+- ✅ **Zero Dependencies**: Everything embedded in one file
 
-**No more inconsistent HTML output!** Every Chronicle report now looks exactly like the reference design.
+**No more inconsistent HTML output!** Every Chronicle report looks exactly like the reference design.
 
 ## 🎯 Purpose
 
@@ -85,25 +96,48 @@ Chronicle generates two complementary report formats:
 
 ## 🚀 How to Use
 
-### Quick Start (v2.1)
-1. **Copy the design system files** to your workspace:
-   - `chronicle-design-system-template.html`
-   - `chronicle-design-system-components.md`
-   - `chronicle-v2.1.kiro.hook`
+### Single File Solution (Recommended)
+1. **Copy the main hook file** to your workspace:
+   ```bash
+   cp chronicle-embedded.kiro.hook /path/to/your/workspace/chronicle.kiro.hook
+   ```
 
 2. **During or after a work session**, trigger the Chronicle hook manually
 3. Chronicle analyzes the **entire conversation history**
-4. Generates comprehensive documentation using the **standardized design system**
-5. Saves reports to the current workspace
-6. Move reports to Chronicle workspace: `/Users/willyue/Mac Data/Design/IDCG/AI Agent Tools/Kiro/Chronicle`
+4. Generates comprehensive documentation with **embedded design system**
+5. Saves professional HTML report to the current workspace
 
-### Design System Benefits
-- **Consistent Output**: Same professional design every time
-- **All Features Work**: Interactive filters, sorting, dual themes
-- **Easy Setup**: Just copy 3 files to any workspace
-- **Quality Guaranteed**: Reference-level visual design
+### Advanced Multi-File Setup
+For advanced users who want to customize the design system:
+1. **Copy files from `docs/` folder**:
+   - `docs/chronicle-v2.1-locked.kiro.hook`
+   - `docs/chronicle-design-system-template.html`
+   - `docs/chronicle-design-system-components.md`
 
-See `Chronicle-Design-System-Guide.md` for complete setup instructions.
+2. **Run setup script**:
+   ```bash
+   ./docs/setup-chronicle-design-system.sh /path/to/your/workspace
+   ```
+
+See `docs/Chronicle-Design-System-Guide.md` for complete setup instructions.
+
+## 📁 Repository Structure
+
+```
+Chronicle/
+├── chronicle-embedded.kiro.hook    # 🎯 Main single-file solution
+├── Chronicle-Example.html          # 📋 Reference showcase
+├── Chronicle-README.md             # 📖 Main documentation
+├── docs/                          # 📚 Advanced documentation & tools
+│   ├── Chronicle-Design-System-Guide.md
+│   ├── chronicle-v2.1-locked.kiro.hook
+│   ├── setup-chronicle-design-system.sh
+│   └── [other advanced files]
+└── releases/                      # 🗂️ Version history (local only)
+    └── v2.1/                     # Complete v2.1 snapshot
+```
+
+**For most users**: Just grab `chronicle-embedded.kiro.hook` and you're ready to go!
 
 ## 🎨 Features
 
@@ -114,28 +148,15 @@ See `Chronicle-Design-System-Guide.md` for complete setup instructions.
 - **Tags & Categories**: Easy searching and organization
 - **Quantitative Metrics**: Files created, time spent, complexity analysis
 
-## 📁 File Organization
-
-```
-Chronicle/
-├── [Session-Topic-Timestamp]/
-│   ├── chronicle-[topic]-[timestamp].md
-│   ├── chronicle-[topic]-[timestamp].html
-│   └── artifacts/
-│       ├── screenshots/
-│       ├── code-samples/
-│       └── configurations/
-```
-
 ## 🔧 Technical Details
 
-- **Version**: v2.1 with Standardized Design System
+- **Version**: v2.1 with Embedded Design System
 - **Hook Type**: Manual trigger
 - **Analysis Scope**: Full conversation history
-- **Output Location**: Current workspace (then move to Chronicle)
-- **File Naming**: `chronicle-[SESSION-TOPIC]-[TIMESTAMP]`
-- **Supported Formats**: Markdown (.md) and HTML (.html)
-- **Design System**: Template-based with consistent styling
+- **Output Location**: Current workspace
+- **File Naming**: `chronicle-[SESSION-TOPIC]-[TIMESTAMP].html`
+- **Dependencies**: Zero - everything embedded in one file
+- **Design System**: Locked template with consistent styling
 - **Interactive Features**: Filters, sorting, dual themes, responsive design
 
 ## 💡 Use Cases
