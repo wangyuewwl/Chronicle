@@ -4,6 +4,17 @@
 
 Chronicle is an intelligent agent hook that automatically captures, analyzes, and documents collaborative work sessions between users and AI assistants. It creates comprehensive reports that track the entire journey from problem identification to solution delivery.
 
+## 🎨 NEW: Standardized Design System (v2.1)
+
+Chronicle now includes a **fixed design system** that ensures consistent, professional HTML output across all workspaces:
+
+- ✅ **Identical Visual Design**: Same styling, colors, and layout every time
+- ✅ **Interactive Features**: Filters, sorting, and dual themes always work
+- ✅ **Professional Quality**: Reference-level design in every workspace
+- ✅ **Template-Based**: Uses standardized components and patterns
+
+**No more inconsistent HTML output!** Every Chronicle report now looks exactly like the reference design.
+
 ## 🎯 Purpose
 
 Chronicle transforms ephemeral chat conversations into structured, searchable documentation that preserves:
@@ -74,11 +85,25 @@ Chronicle generates two complementary report formats:
 
 ## 🚀 How to Use
 
-1. **During or after a work session**, trigger the Chronicle hook manually
-2. Chronicle analyzes the **entire conversation history**
-3. Generates comprehensive documentation automatically
-4. Saves reports to the current workspace
-5. Move reports to Chronicle workspace: `/Users/willyue/Mac Data/Design/IDCG/AI Agent Tools/Kiro/Chronicle`
+### Quick Start (v2.1)
+1. **Copy the design system files** to your workspace:
+   - `chronicle-design-system-template.html`
+   - `chronicle-design-system-components.md`
+   - `chronicle-v2.1.kiro.hook`
+
+2. **During or after a work session**, trigger the Chronicle hook manually
+3. Chronicle analyzes the **entire conversation history**
+4. Generates comprehensive documentation using the **standardized design system**
+5. Saves reports to the current workspace
+6. Move reports to Chronicle workspace: `/Users/willyue/Mac Data/Design/IDCG/AI Agent Tools/Kiro/Chronicle`
+
+### Design System Benefits
+- **Consistent Output**: Same professional design every time
+- **All Features Work**: Interactive filters, sorting, dual themes
+- **Easy Setup**: Just copy 3 files to any workspace
+- **Quality Guaranteed**: Reference-level visual design
+
+See `Chronicle-Design-System-Guide.md` for complete setup instructions.
 
 ## 🎨 Features
 
@@ -104,11 +129,14 @@ Chronicle/
 
 ## 🔧 Technical Details
 
+- **Version**: v2.1 with Standardized Design System
 - **Hook Type**: Manual trigger
 - **Analysis Scope**: Full conversation history
 - **Output Location**: Current workspace (then move to Chronicle)
 - **File Naming**: `chronicle-[SESSION-TOPIC]-[TIMESTAMP]`
 - **Supported Formats**: Markdown (.md) and HTML (.html)
+- **Design System**: Template-based with consistent styling
+- **Interactive Features**: Filters, sorting, dual themes, responsive design
 
 ## 💡 Use Cases
 
@@ -121,5 +149,5 @@ Chronicle/
 
 ---
 
-*Chronicle v1.0 - Created December 19, 2025*  
-*Automated Documentation for the Future of Collaborative Work*
+*Chronicle v2.1 - Created January 1, 2026*  
+*Automated Documentation with Standardized Design System*

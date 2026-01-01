@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronicle - {{PROJECT_TITLE}}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Chronicle Design System - Color Set Definitions
+        const colorSets = {
+            set1: {
+                name: "Theme 1",
+                colors: {
+                    // Current shadcn/ui dark theme colors
+                    background: "hsl(222.2 84% 4.9%)",
+                    foreground: "hsl(210 40% 98%)",
+                    muted: "hsl(222.2 84% 8%)",
+                    mutedForeground: "hsl(215 20.2% 65.1%)",
+                    border: "hsl(217.2 32.6% 17.5%)",
+                    primary: "hsl(210 40% 98%)",
+                    primaryForeground: "hsl(222.2 84% 4.9%)",
+                    // Category colors
+                    creator: { bg: "bg-blue-500/10", text: "text-blue-300", border: "border-blue-500/20" },
+                    kiro: { bg: "bg-green-500/10", text: "text-green-300", border: "border-green-500/20" },
+                    design: { bg: "#6B5FD720", text: "#6B5FD7", border: "#6B5FD740" },
+                    system: { bg: "#F4935520", text: "#F49355", border: "#F4935540" },
+                    problemSolving: { bg: "#F5454520", text: "#F54545", border: "#F5454540" }
+                }
+            },
+            set2: {
+                name: "Theme 2",
+                colors: {
+                    // Theme 2 - Purple-tinted dark theme
+                    background: "#0F0C1A",
+                    foreground: "#FBE6E5",
+                    muted: "#201D30",
+                    mutedForeground: "#9B8B9A",
+                    border: "#965FD44D",
+                    primary: "#FBE6E5",
+                    primaryForeground: "#0F0C1A",
+                    // Category colors for Theme 2
+                    creator: { bg: "#734F9A26", text: "#965FD4", border: "#734F9ACC" },
+                    kiro: { bg: "#8BD45026", text: "#8EDF5F", border: "#8BD45066" },
+                    design: { bg: "#5549B720", text: "#5549B7", border: "#5549B740" },
+                    system: { bg: "#EC774420", text: "#EC7744", border: "#EC774440" },
+                    problemSolving: { bg: "#ED232320", text: "#ED2323", border: "#ED232340" }
+                }
+            }
+        };
+
+        let currentColorSet = 'set1';
+
+        function applyColorSet(setId) {
+            currentColorSet = setId;
+            const colors = colorSets[setId].colors;
+            
+            // Apply background color to body
+            document.body.style.backgroundColor = colors.background;
+            
+            // Apply base theme colors via CSS custom properties
+            document.documentElement.style.setProperty('--background', colors.background);
+            document.documentElement.style.setProperty('--foreground', colors.foreground);
+            document.documentElement.style.setProperty('--muted', colors.muted);
+            document.documentElement.style.setProperty('--muted-foreground', colors.mutedForeground);
+            document.documentElement.style.setProperty('--border', colors.border);
+            document.documentElement.style.setProperty('--primary', colors.primary);
+            document.documentElement.style.setProperty('--primary-foreground', colors.primaryForeground);
+            
+            // Apply timeline elements colors for Theme 2
+            if (currentColorSet === 'set2') {
+                // Update timeline dots
+                document.querySelectorAll('.timeline-dot').forEach(dot => {
+                    dot.style.background = '#965FD4';
+                    dot.style.borderColor = colors.background;
+                });
+                
+                // Update timeline lines
+                document.querySelectorAll('.timeline-line').forEach(line => {
+                    line.style.background = '#965FD44D';
+                });
+            } else {
+                // Reset to Theme 1 colors
+                document.querySelectorAll('.timeline-dot').forEach(dot => {
+                    dot.style.background = '';
+                    dot.style.borderColor = '';
+                });
+                
+                document.querySelectorAll('.timeline-line').forEach(line => {
+                    line.style.background = '';
+                });
+            }
+            
+            // Apply category colors by updating classes
+            updateCategoryColors(colors);
+            updateFilterAndTags(colors);
+        }
+
+        function updateCategoryColors(colors) {
+            if (currentColorSet === 'set1') {
+                // Theme 1 - keep original Tailwind classes
+                return;
+            }
+            
+            // Theme 2 - apply custom colors
+            // Update Creator containers (blue backgrounds)
+            document.querySelectorAll('.bg-blue-500\\/10').forEach(el => {
+                if (el.querySelector('h4') && el.querySelector('h4').textContent.includes('Creator')) {
+                    el.style.backgroundColor = colors.creator.bg;
+                    el.style.borderColor = colors.creator.border;
+                    const h4 = el.querySelector('h4');
+                    const p = el.querySelector('p');
+                    if (h4) h4.style.color = colors.creator.text;
+                    if (p) p.style.color = colors.creator.text;
+                }
+            });
+            
+            // Update Kiro containers (green backgrounds)  
+            document.querySelectorAll('.bg-green-500\\/10').forEach(el => {
+                if (el.querySelector('h4') && el.querySelector('h4').textContent.includes('Kiro')) {
+                    el.style.backgroundColor = colors.kiro.bg;
+                    el.style.borderColor = colors.kiro.border;
+                    const h4 = el.querySelector('h4');
+                    const content = el.querySelectorAll('li, p');
+                    if (h4) h4.style.color = colors.kiro.text;
+                    content.forEach(item => item.style.color = colors.kiro.text);
+                }
+            });
+        }
+
+        function updateFilterAndTags(colors) {
+            if (currentColorSet === 'set1') {
+                // Theme 1 - apply custom colors to filter buttons
+                document.querySelectorAll('.filter-button').forEach(btn => {
+                    const filter = btn.dataset.filter;
+                    if (filter === 'all') {
+                        btn.style.backgroundColor = '';
+                        btn.style.color = '';
+                        btn.style.borderColor = '';
+                    } else if (filter === 'design') {
+                        btn.style.backgroundColor = colors.design.bg;
+                        btn.style.color = colors.design.text;
+                        btn.style.borderColor = colors.design.border;
+                    } else if (filter === 'system') {
+                        btn.style.backgroundColor = colors.system.bg;
+                        btn.style.color = colors.system.text;
+                        btn.style.borderColor = colors.system.border;
+                    } else if (filter === 'problem-solving') {
+                        btn.style.backgroundColor = colors.problemSolving.bg;
+                        btn.style.color = colors.problemSolving.text;
+                        btn.style.borderColor = colors.problemSolving.border;
+                    }
+                });
+                
+                // Theme 1 - apply custom colors to timeline tags
+                document.querySelectorAll('.timeline-item .inline-flex').forEach(tag => {
+                    const text = tag.textContent.toLowerCase().trim();
+                    if (text === 'design') {
+                        tag.style.backgroundColor = colors.design.bg;
+                        tag.style.color = colors.design.text;
+                        tag.style.borderColor = colors.design.border;
+                    } else if (text === 'system') {
+                        tag.style.backgroundColor = colors.system.bg;
+                        tag.style.color = colors.system.text;
+                        tag.style.borderColor = colors.system.border;
+                    } else if (text === 'problem solving') {
+                        tag.style.backgroundColor = colors.problemSolving.bg;
+                        tag.style.color = colors.problemSolving.text;
+                        tag.style.borderColor = colors.problemSolving.border;
+                    }
+                });
+                return;
+            }
+            
+            // Theme 2 - apply custom colors to filter buttons
+            document.querySelectorAll('.filter-button').forEach(btn => {
+                const filter = btn.dataset.filter;
+                if (filter === 'all') {
+                    btn.style.backgroundColor = '#FBE6E5';
+                    btn.style.color = '#0F0C1A';
+                    btn.style.borderColor = '#FBE6E5';
+                } else if (filter === 'design') {
+                    btn.style.backgroundColor = colors.design.bg;
+                    btn.style.color = colors.design.text;
+                    btn.style.borderColor = colors.design.border;
+                } else if (filter === 'system') {
+                    btn.style.backgroundColor = colors.system.bg;
+                    btn.style.color = colors.system.text;
+                    btn.style.borderColor = colors.system.border;
+                } else if (filter === 'problem-solving') {
+                    btn.style.backgroundColor = colors.problemSolving.bg;
+                    btn.style.color = colors.problemSolving.text;
+                    btn.style.borderColor = colors.problemSolving.border;
+                }
+            });
+            
+            // Theme 2 - apply custom colors to timeline tags
+            document.querySelectorAll('.timeline-item .inline-flex').forEach(tag => {
+                const text = tag.textContent.toLowerCase().trim();
+                if (text === 'design') {
+                    tag.style.backgroundColor = colors.design.bg;
+                    tag.style.color = colors.design.text;
+                    tag.style.borderColor = colors.design.border;
+                } else if (text === 'system') {
+                    tag.style.backgroundColor = colors.system.bg;
+                    tag.style.color = colors.system.text;
+                    tag.style.borderColor = colors.system.border;
+                } else if (text === 'problem solving') {
+                    tag.style.backgroundColor = colors.problemSolving.bg;
+                    tag.style.color = colors.problemSolving.text;
+                    tag.style.borderColor = colors.problemSolving.border;
+                }
+            });
+        }
+
+        // Initialize color set on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            applyColorSet('set1');
+        });
+
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        border: "var(--border)",
+                        input: "var(--border)",
+                        ring: "hsl(212.7 26.8% 83.9%)",
+                        background: "var(--background)",
+                        foreground: "var(--foreground)",
+                        primary: {
+                            DEFAULT: "var(--primary)",
+                            foreground: "var(--primary-foreground)"
+                        },
+                        secondary: {
+                            DEFAULT: "var(--border)",
+                            foreground: "var(--foreground)"
+                        },
+                        destructive: {
+                            DEFAULT: "hsl(0 62.8% 30.6%)",
+                            foreground: "var(--foreground)"
+                        },
+                        muted: {
+                            DEFAULT: "var(--muted)",
+                            foreground: "var(--muted-foreground)"
+                        },
+                        accent: {
+                            DEFAULT: "var(--border)",
+                            foreground: "var(--foreground)"
+                        },
+                        popover: {
+                            DEFAULT: "var(--background)",
+                            foreground: "var(--foreground)"
+                        },
+                        card: {
+                            DEFAULT: "var(--background)",
+                            foreground: "var(--foreground)"
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .card {
+            background: var(--background);
+            border: 1px solid var(--border);
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 23px;
+            top: 60px;
+            bottom: -20px;
+            width: 2px;
+            background: var(--border);
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: 16px;
+            top: 24px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--foreground);
+            border: 3px solid var(--background);
+            z-index: 10;
+        }
+        
+        .rounded-12 {
+            border-radius: 12px;
+        }
+        
+        .timeline-item {
+        }
+        
+        .timeline-item.hidden {
+            display: none;
+        }
+        
+        .filter-button {
+            transition: all 0.2s ease;
+        }
+        
+        .filter-button.active {
+            background: hsl(210 40% 98%);
+            color: hsl(222.2 84% 4.9%);
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground min-h-screen">
+    <div class="container mx-auto px-4 py-8" style="max-width: 960px;">
+        <!-- Header Section -->
+        <div class="card rounded-12 p-8 mb-8">
+            <div class="flex items-center gap-4 mb-8">
+                <div>
+                    <h1 class="text-4xl font-bold text-foreground mb-2">Chronicle</h1>
+                    <p class="text-muted-foreground text-lg">{{PROJECT_SUBTITLE}}</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-muted rounded-12 p-4 text-center">
+                    <div class="text-sm text-muted-foreground uppercase tracking-wide mb-2">Date</div>
+                    <div class="text-sm font-semibold">{{SESSION_DATE}}</div>
+                </div>
+                <div class="bg-muted rounded-12 p-4 text-center">
+                    <div class="text-sm text-muted-foreground uppercase tracking-wide mb-2">TIME SPENT</div>
+                    <div class="text-sm font-semibold">{{TIME_SPENT}}</div>
+                </div>
+                <div class="bg-muted rounded-12 p-4 text-center">
+                    <div class="text-sm text-muted-foreground uppercase tracking-wide mb-2">Type</div>
+                    <div class="text-sm font-semibold">{{PROJECT_TYPE}}</div>
+                </div>
+                <div class="bg-muted rounded-12 p-4 text-center">
+                    <div class="text-sm text-muted-foreground uppercase tracking-wide mb-2">Complexity</div>
+                    <div class="text-sm font-semibold">{{COMPLEXITY}}</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Details Section -->
+        <div class="card rounded-12 p-8 mb-8">
+            <h2 class="text-2xl font-bold mb-8">
+                Project details
+            </h2>
+            
+            <div class="space-y-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-foreground">Overview</h3>
+                    <p class="text-muted-foreground leading-relaxed">
+                        {{PROJECT_OVERVIEW}}
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-foreground">Key challenges</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        {{KEY_CHALLENGES}}
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-foreground">Requirements & goals</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        {{REQUIREMENTS_GOALS}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="card rounded-12 p-8">
+            <h2 class="text-2xl font-bold mb-6">
+                Development timeline
+            </h2>
+            
+            <!-- Filters and Sorting -->
+            <div class="mb-4 space-y-4">
+                <div class="flex flex-wrap gap-2">
+                    <button class="filter-button px-3 py-1 rounded-full text-sm font-medium bg-muted text-muted-foreground hover:bg-accent active" data-filter="all">
+                        All
+                    </button>
+                    <button class="filter-button px-3 py-1 rounded-full text-sm font-medium" style="background-color: #5549B720; color: #5549B7; border: 1px solid #5549B740;" data-filter="design">
+                        Design
+                    </button>
+                    <button class="filter-button px-3 py-1 rounded-full text-sm font-medium" style="background-color: #EC774420; color: #EC7744; border: 1px solid #EC774440;" data-filter="system">
+                        System
+                    </button>
+                    <button class="filter-button px-3 py-1 rounded-full text-sm font-medium" style="background-color: #ED232320; color: #ED2323; border: 1px solid #ED232340;" data-filter="problem-solving">
+                        Problem solving
+                    </button>
+                </div>
+                
+                <div class="flex gap-2">
+                    <button id="sort-latest" class="px-3 py-1 rounded-md text-sm font-medium bg-primary text-primary-foreground">
+                        Sort by latest
+                    </button>
+                    <button id="sort-oldest" class="px-3 py-1 rounded-md text-sm font-medium bg-muted text-muted-foreground hover:bg-accent">
+                        Sort by oldest
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Timeline Events -->
+            {{TIMELINE_EVENTS}}
+            
+            <div class="relative" id="timeline-container">
+            </div>
+        </div>
+    </div>
+
+    <!-- Color Set Selector -->
+    <div class="text-center py-6">
+        <div class="container mx-auto px-4" style="max-width: 960px;">
+            <div class="inline-block border border-border rounded-12 px-4 py-2">
+                <select id="colorSetSelector" class="bg-transparent text-foreground border-none rounded-12 px-2 py-1 text-sm focus:outline-none" onchange="applyColorSet(this.value)">
+                    <option value="set1">Theme 1</option>
+                    <option value="set2">Theme 2</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-8 text-muted-foreground">
+        <p>Chronicle {{VERSION}} - Generated {{GENERATION_DATE}}</p>
+        <p class="text-sm mt-2">Automated documentation for collaborative AI-human work sessions</p>
+    </footer>
+
+    <script>
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-button');
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active filter button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                const filter = button.dataset.filter;
+                
+                // Show/hide timeline items based on filter
+                timelineItems.forEach(item => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            });
+        });
+        
+        // Sorting functionality
+        const sortLatestBtn = document.getElementById('sort-latest');
+        const sortOldestBtn = document.getElementById('sort-oldest');
+        const timelineContainer = document.getElementById('timeline-container');
+        
+        function sortTimeline(order) {
+            const items = Array.from(timelineItems);
+            const container = timelineContainer.parentElement;
+            
+            items.sort((a, b) => {
+                const timestampA = new Date(a.dataset.timestamp);
+                const timestampB = new Date(b.dataset.timestamp);
+                
+                if (order === 'latest') {
+                    return timestampB - timestampA; // Newest first
+                } else {
+                    return timestampA - timestampB; // Oldest first
+                }
+            });
+            
+            // Re-append items in sorted order before the timeline-container
+            items.forEach(item => {
+                container.insertBefore(item, timelineContainer);
+            });
+        }
+        
+        sortLatestBtn.addEventListener('click', () => {
+            sortLatestBtn.classList.add('bg-primary', 'text-primary-foreground');
+            sortLatestBtn.classList.remove('bg-muted', 'text-muted-foreground', 'hover:bg-accent');
+            
+            sortOldestBtn.classList.remove('bg-primary', 'text-primary-foreground');
+            sortOldestBtn.classList.add('bg-muted', 'text-muted-foreground', 'hover:bg-accent');
+            
+            sortTimeline('latest');
+        });
+        
+        sortOldestBtn.addEventListener('click', () => {
+            sortOldestBtn.classList.add('bg-primary', 'text-primary-foreground');
+            sortOldestBtn.classList.remove('bg-muted', 'text-muted-foreground', 'hover:bg-accent');
+            
+            sortLatestBtn.classList.remove('bg-primary', 'text-primary-foreground');
+            sortLatestBtn.classList.add('bg-muted', 'text-muted-foreground', 'hover:bg-accent');
+            
+            sortTimeline('oldest');
+        });
+    </script>
+</body>
+</html>
