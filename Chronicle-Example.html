@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronicle - Automated Documentation System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Color Set Definitions
+        const colorSets = {
+            set1: {
+                name: "Theme 1",
+                colors: {
+                    // Current shadcn/ui dark theme colors
+                    background: "hsl(222.2 84% 4.9%)",
+                    foreground: "hsl(210 40% 98%)",
+                    muted: "hsl(222.2 84% 8%)",
+                    mutedForeground: "hsl(215 20.2% 65.1%)",
+                    border: "hsl(217.2 32.6% 17.5%)",
+                    primary: "hsl(210 40% 98%)",
+                    primaryForeground: "hsl(222.2 84% 4.9%)",
+                    // Category colors
+                    creator: { bg: "bg-blue-500/10", text: "text-blue-300", border: "border-blue-500/20" },
+                    kiro: { bg: "bg-green-500/10", text: "text-green-300", border: "border-green-500/20" },
+                    design: { bg: "#6B5FD720", text: "#6B5FD7", border: "#6B5FD740" },
+                    system: { bg: "#F4935520", text: "#F49355", border: "#F4935540" },
+                    problemSolving: { bg: "#F5454520", text: "#F54545", border: "#F5454540" }
+                }
+            },
+            set2: {
+                name: "Theme 2",
+                colors: {
+                    // Theme 2 - Purple-tinted dark theme
+                    background: "#0F0C1A",
+                    foreground: "#FBE6E5",
+                    muted: "#201D30",
+                    mutedForeground: "#9B8B9A",
+                    border: "#965FD44D",
+                    primary: "#FBE6E5",
+                    primaryForeground: "#0F0C1A",
+                    // Category colors for Theme 2
+                    creator: { bg: "#734F9A26", text: "#965FD4", border: "#734F9ACC" },
+                    kiro: { bg: "#8BD45026", text: "#8EDF5F", border: "#8BD45066" },
+                    design: { bg: "#5549B720", text: "#5549B7", border: "#5549B740" },
+                    system: { bg: "#EC774420", text: "#EC7744", border: "#EC774440" },
+                    problemSolving: { bg: "#ED232320", text: "#ED2323", border: "#ED232340" }
+                }
+            }
+        };
+
+        let currentColorSet = 'set1';
+
+        function applyColorSet(setId) {
+            currentColorSet = setId;
+            const colors = colorSets[setId].colors;
+            
+            // Apply background color to body
+            document.body.style.backgroundColor = colors.background;
+            
+            // Apply base theme colors via CSS custom properties
+            document.documentElement.style.setProperty('--background', colors.background);
+            document.documentElement.style.setProperty('--foreground', colors.foreground);
+            document.documentElement.style.setProperty('--muted', colors.muted);
+            document.documentElement.style.setProperty('--muted-foreground', colors.mutedForeground);
+            document.documentElement.style.setProperty('--border', colors.border);
+            document.documentElement.style.setProperty('--primary', colors.primary);
+            document.documentElement.style.setProperty('--primary-foreground', colors.primaryForeground);
+            
+            // Apply timeline elements colors for Theme 2
+            if (currentColorSet === 'set2') {
+                // Update timeline dots
+                document.querySelectorAll('.timeline-dot').forEach(dot => {
+                    dot.style.background = '#965FD4';
+                    dot.style.borderColor = colors.background;
+                });
+                
+                // Update timeline lines
+                document.querySelectorAll('.timeline-line').forEach(line => {
+                    line.style.background = '#965FD44D';
+                });
+            } else {
+                // Reset to Theme 1 colors
+                document.querySelectorAll('.timeline-dot').forEach(dot => {
+                    dot.style.background = '';
+                    dot.style.borderColor = '';
+                });
+                
+                document.querySelectorAll('.timeline-line').forEach(line => {
+                    line.style.background = '';
+                });
+            }
+            
+            // Apply category colors by updating classes
+            updateCategoryColors(colors);
+            updateFilterAndTags(colors);
+        }
+
+        function updateCategoryColors(colors) {
+            if (currentColorSet === 'set1') {
+                // Theme 1 - keep original Tailwind classes
+                return;
+            }
+            
+            // Theme 2 - apply custom colors
+            // Update Creator containers (blue backgrounds)
+            document.querySelectorAll('.bg-blue-500\\/10').forEach(el => {
+                if (el.querySelector('h4') && el.querySelector('h4').textContent.includes('Creator')) {
+                    el.style.backgroundColor = colors.creator.bg;
+                    el.style.borderColor = colors.creator.border;
+                    const h4 = el.querySelector('h4');
+                    const p = el.querySelector('p');
+                    if (h4) h4.style.color = colors.creator.text;
+                    if (p) p.style.color = colors.creator.text;
+                }
+            });
+            
+            // Update Kiro containers (green backgrounds)  
+            document.querySelectorAll('.bg-green-500\\/10').forEach(el => {
+                if (el.querySelector('h4') && el.querySelector('h4').textContent.includes('Kiro')) {
+                    el.style.backgroundColor = colors.kiro.bg;
+                    el.style.borderColor = colors.kiro.border;
+                    const h4 = el.querySelector('h4');
+                    const content = el.querySelectorAll('li, p');
+                    if (h4) h4.style.color = colors.kiro.text;
+                    content.forEach(item => item.style.color = colors.kiro.text);
+                }
+            });
+        }
+
+        function updateFilterAndTags(colors) {
+            if (currentColorSet === 'set1') {
+                // Theme 1 - apply custom colors to filter buttons
+                document.querySelectorAll('.filter-button').forEach(btn => {
+                    const filter = btn.dataset.filter;
+                    if (filter === 'all') {
+                        btn.style.backgroundColor = '';
+                        btn.style.color = '';
+                        btn.style.borderColor = '';
+                    } else if (filter === 'design') {
+                        btn.style.backgroundColor = colors.design.bg;
+                        btn.style.color = colors.design.text;
+                        btn.style.borderColor = colors.design.border;
+                    } else if (filter === 'system') {
+                        btn.style.backgroundColor = colors.system.bg;
+                        btn.style.color = colors.system.text;
+                        btn.style.borderColor = colors.system.border;
+                    } else if (filter === 'problem-solving') {
+                        btn.style.backgroundColor = colors.problemSolving.bg;
+                        btn.style.color = colors.problemSolving.text;
+                        btn.style.borderColor = colors.problemSolving.border;
+                    }
+                });
+                
+                // Theme 1 - apply custom colors to timeline tags
+                document.querySelectorAll('.timeline-item .inline-flex').forEach(tag => {
+                    const text = tag.textContent.toLowerCase().trim();
+                    if (text === 'design') {
+                        tag.style.backgroundColor = colors.design.bg;
+                        tag.style.color = colors.design.text;
+                        tag.style.borderColor = colors.design.border;
+                    } else if (text === 'system') {
+                        tag.style.backgroundColor = colors.system.bg;
+                        tag.style.color = colors.system.text;
+                        tag.style.borderColor = colors.system.border;
+                    } else if (text === 'problem solving') {
+                        tag.style.backgroundColor = colors.problemSolving.bg;
+                        tag.style.color = colors.problemSolving.text;
+                        tag.style.borderColor = colors.problemSolving.border;
+                    }
+                });
+                return;
+            }
+            
+            // Theme 2 - apply custom colors to filter buttons
+            document.querySelectorAll('.filter-button').forEach(btn => {
+                const filter = btn.dataset.filter;
+                if (filter === 'all') {
+                    btn.style.backgroundColor = '#FBE6E5';
+                    btn.style.color = '#0F0C1A';
+                    btn.style.borderColor = '#FBE6E5';
+                } else if (filter === 'design') {
+                    btn.style.backgroundColor = colors.design.bg;
+                    btn.style.color = colors.design.text;
+                    btn.style.borderColor = colors.design.border;
+                } else if (filter === 'system') {
+                    btn.style.backgroundColor = colors.system.bg;
+                    btn.style.color = colors.system.text;
+                    btn.style.borderColor = colors.system.border;
+                } else if (filter === 'problem-solving') {
+                    btn.style.backgroundColor = colors.problemSolving.bg;
+                    btn.style.color = colors.problemSolving.text;
+                    btn.style.borderColor = colors.problemSolving.border;
+                }
+            });
+            
+            // Theme 2 - apply custom colors to timeline tags
+            document.querySelectorAll('.timeline-item .inline-flex').forEach(tag => {
+                const text = tag.textContent.toLowerCase().trim();
+                if (text === 'design') {
+                    tag.style.backgroundColor = colors.design.bg;
+                    tag.style.color = colors.design.text;
+                    tag.style.borderColor = colors.design.border;
+                } else if (text === 'system') {
+                    tag.style.backgroundColor = colors.system.bg;
+                    tag.style.color = colors.system.text;
+                    tag.style.borderColor = colors.system.border;
+                } else if (text === 'problem solving') {
+                    tag.style.backgroundColor = colors.problemSolving.bg;
+                    tag.style.color = colors.problemSolving.text;
+                    tag.style.borderColor = colors.problemSolving.border;
+                }
+            });
+        }
+
+        // Initialize color set on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            applyColorSet('set1');
+        });
+
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        border: "var(--border)",
+                        input: "var(--border)",
+                        ring: "hsl(212.7 26.8% 83.9%)",
+                        background: "var(--background)",
+                        foreground: "var(--foreground)",
+                        primary: {
+                            DEFAULT: "var(--primary)",
+                            foreground: "var(--primary-foreground)"
+                        },
+                        secondary: {
+                            DEFAULT: "var(--border)",
+                            foreground: "var(--foreground)"
+                        },
+                        destructive: {
+                            DEFAULT: "hsl(0 62.8% 30.6%)",
+                            foreground: "var(--foreground)"
+                        },
+                        muted: {
+                            DEFAULT: "var(--muted)",
+                            foreground: "var(--muted-foreground)"
+                        },
+                        accent: {
+                            DEFAULT: "var(--border)",
+                            foreground: "var(--foreground)"
+                        },
+                        popover: {
+                            DEFAULT: "var(--background)",
+                            foreground: "var(--foreground)"
+                        },
+                        card: {
+                            DEFAULT: "var(--background)",
+                            foreground: "var(--foreground)"
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .card {
+            background: var(--background);
+            border: 1px solid var(--border);
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 23px;
+            top: 60px;
+            bottom: -20px;
+            width: 2px;
+            background: var(--border);
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: 16px;
+            top: 24px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--foreground);
+            border: 3px solid var(--background);
+            z-index: 10;
+        }
+        
+        .rounded-12 {
+            border-radius: 12px;
+        }
+        
+        .timeline-item {
+        }
+        
+        .timeline-item.hidden {
+            display: none;
+        }
+        
+        .filter-button {
+            transition: all 0.2s ease;
+        }
+        
+        .filter-button.active {
+            background: hsl(210 40% 98%);
+            color: hsl(222.2 84% 4.9%);
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground min-h-screen">
+    <div class="container mx-auto px-4 py-8" style="max-width: 960px;">
+        <!-- Header Section -->
+        <div class="card rounded-12 p-8 mb-8">
+            <div class="flex items-center gap-4 mb-8">
+                <div>
+                    <h1 class="text-4xl font-bold text-foreground mb-2">Chronicle</h1>
+                    <p class="text-muted-foreground text-lg">Automated documentation system for collaborative work sessions</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-muted rounded-12 p-4 text-center">
+                    <div class="text-sm text-muted-foreground uppercase tracking-wide mb-2">Date</div>
+                    <div class="text-sm font-semibold">Dec 19, 2025</div>
+                </div>
+                <div class="bg-muted rounded-12 p-4 text-center">
+                    <div class="text-sm text-muted-foreground uppercase tracking-wide mb-2">TIME SPENT</div>
+                    <div class="text-sm font-semibold">2 Hours</div>
+                </div>
+                <div class="bg-muted rounded-12 p-4 text-center">
+                    <div class="text-sm text-muted-foreground uppercase tracking-wide mb-2">Type</div>
+                    <div class="text-sm font-semibold">Tool Development</div>
+                </div>
+                <div class="bg-muted rounded-12 p-4 text-center">
+                    <div class="text-sm text-muted-foreground uppercase tracking-wide mb-2">Complexity</div>
+                    <div class="text-sm font-semibold">High</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Details Section -->
+        <div class="card rounded-12 p-8 mb-8">
+            <h2 class="text-2xl font-bold mb-8">
+                Project details
+            </h2>
+            
+            <div class="space-y-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-foreground">Overview</h3>
+                    <p class="text-muted-foreground leading-relaxed">
+                        Chronicle is an intelligent agent hook system designed to automatically capture, analyze, and document collaborative work sessions between users and AI assistants. It transforms ephemeral chat conversations into structured, searchable documentation that preserves creative problem-solving processes, decision-making rationale, and technical implementation details.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-foreground">Key challenges</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-muted rounded-12 p-4">
+                            <h4 class="font-medium mb-3 text-foreground">Session continuity</h4>
+                            <p class="text-sm text-muted-foreground">AI assistants lose conversation history between sessions, making it difficult to maintain project continuity and learn from past interactions.</p>
+                        </div>
+                        <div class="bg-muted rounded-12 p-4">
+                            <h4 class="font-medium mb-3 text-foreground">Knowledge preservation</h4>
+                            <p class="text-sm text-muted-foreground">Valuable insights, creative solutions, and problem-solving approaches are lost when conversations end, preventing knowledge accumulation.</p>
+                        </div>
+                        <div class="bg-muted rounded-12 p-4">
+                            <h4 class="font-medium mb-3 text-foreground">Process documentation</h4>
+                            <p class="text-sm text-muted-foreground">Manual documentation of collaborative work is time-consuming and often incomplete, missing crucial decision points and iterations.</p>
+                        </div>
+                        <div class="bg-muted rounded-12 p-4">
+                            <h4 class="font-medium mb-3 text-foreground">Analysis depth</h4>
+                            <p class="text-sm text-muted-foreground">Need for comprehensive analysis that captures not just what was done, but why decisions were made and how solutions evolved.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 text-foreground">Creator requirements</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-muted rounded-12 p-4">
+                            <h4 class="font-medium mb-3 text-foreground">Comprehensive session capture</h4>
+                            <p class="text-sm text-muted-foreground">Document entire collaborative journey from problem identification to solution delivery</p>
+                        </div>
+                        <div class="bg-muted rounded-12 p-4">
+                            <h4 class="font-medium mb-3 text-foreground">Dual output formats</h4>
+                            <p class="text-sm text-muted-foreground">Generate both Markdown (for version control) and HTML (for presentation) reports</p>
+                        </div>
+                        <div class="bg-muted rounded-12 p-4">
+                            <h4 class="font-medium mb-3 text-foreground">Evolution tracking</h4>
+                            <p class="text-sm text-muted-foreground">Track each iteration and variation of solutions, documenting what changed and why</p>
+                        </div>
+                        <div class="bg-muted rounded-12 p-4">
+                            <h4 class="font-medium mb-3 text-foreground">Visual excellence</h4>
+                            <p class="text-sm text-muted-foreground">Create visually delightful HTML reports with professional styling and interactive elements</p>
+                        </div>
+                        <div class="bg-muted rounded-12 p-4">
+                            <h4 class="font-medium mb-3 text-foreground">Automated intelligence</h4>
+                            <p class="text-sm text-muted-foreground">Auto-detect project types, generate insights, and provide actionable follow-up suggestions</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="card rounded-12 p-8">
+            <h2 class="text-2xl font-bold mb-6">
+                Development timeline
+            </h2>
+            
+            <!-- Filters and Sorting -->
+            <div class="mb-4 space-y-4">
+                <div class="flex flex-wrap gap-2">
+                    <button class="filter-button px-3 py-1 rounded-full text-sm font-medium bg-muted text-muted-foreground hover:bg-accent active" data-filter="all">
+                        All
+                    </button>
+                    <button class="filter-button px-3 py-1 rounded-full text-sm font-medium" style="background-color: #5549B720; color: #5549B7; border: 1px solid #5549B740;" data-filter="design">
+                        Design
+                    </button>
+                    <button class="filter-button px-3 py-1 rounded-full text-sm font-medium" style="background-color: #EC774420; color: #EC7744; border: 1px solid #EC774440;" data-filter="system">
+                        System
+                    </button>
+                    <button class="filter-button px-3 py-1 rounded-full text-sm font-medium" style="background-color: #ED232320; color: #ED2323; border: 1px solid #ED232340;" data-filter="problem-solving">
+                        Problem solving
+                    </button>
+                </div>
+                
+                <div class="flex gap-2">
+                    <button id="sort-latest" class="px-3 py-1 rounded-md text-sm font-medium bg-primary text-primary-foreground">
+                        Sort by latest
+                    </button>
+                    <button id="sort-oldest" class="px-3 py-1 rounded-md text-sm font-medium bg-muted text-muted-foreground hover:bg-accent">
+                        Sort by oldest
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Timeline Events (Latest to Oldest by default) -->
+            
+            <!-- Event 6: Chronicle System Complete -->
+            <div class="timeline-item relative pl-12 py-6" data-category="system" data-timestamp="2025-12-19T15:30:00">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-line"></div>
+                    <div class="bg-muted rounded-12 pt-4 pr-4 pb-4 pl-6">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                            <div class="text-sm text-muted-foreground mb-2 md:mb-0">12/19, 2025 • 3:30 PM</div>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-1 text-foreground">Chronicle system complete</h3>
+                        <p class="text-muted-foreground mb-6">Finalized Chronicle implementation with comprehensive documentation and workspace setup.</p>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <div class="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                                    <h4 class="font-medium text-sm mb-3 text-blue-300">Creator</h4>
+                                    <p class="text-sm text-blue-300">"let's name this tool 'Chronicle' and workspace set to /Users/willyue/Mac Data/Design/IDCG/AI Agent Tools/Kiro/Chronicle"</p>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+                                    <h4 class="font-medium text-sm mb-3 text-green-300">Kiro</h4>
+                                    <ul class="text-sm text-green-300 space-y-2">
+                                        <li>• Created Chronicle workspace directory structure</li>
+                                        <li>• Updated hook with clean "Chronicle" branding</li>
+                                        <li>• Generated comprehensive README documentation</li>
+                                        <li>• Established organized file management system</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 5: Creative Solution Brainstorming -->
+                <div class="timeline-item relative pl-12 py-6" data-category="" data-timestamp="2025-12-19T14:45:00">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-line"></div>
+                    <div class="bg-muted rounded-12 pt-4 pr-4 pb-4 pl-6">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                            <div class="text-sm text-muted-foreground mb-2 md:mb-0">12/19, 2025 • 2:45 PM</div>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-1 text-foreground">Creative solution brainstorming</h3>
+                        <p class="text-muted-foreground mb-6">Brainstormed creative names and conceptualized the automated documentation system.</p>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <div class="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                                    <h4 class="font-medium text-sm mb-3 text-blue-300">Creator</h4>
+                                    <p class="text-sm text-blue-300">"get some creative solution here... make a tool that can record and document the working progress from beginning"</p>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+                                    <h4 class="font-medium text-sm mb-3 text-green-300">Kiro</h4>
+                                    <ul class="text-sm text-green-300 space-y-2">
+                                        <li>• Designed comprehensive documentation system architecture</li>
+                                        <li>• Brainstormed creative names (SessionSynapse, FlowForge, etc.)</li>
+                                        <li>• Created detailed agent hook specification</li>
+                                        <li>• Planned dual-format output system</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 4: File Path Issue Resolution -->
+                <div class="timeline-item relative pl-12 py-6" data-category="" data-timestamp="2025-12-19T14:15:00">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-line"></div>
+                    <div class="bg-muted rounded-12 pt-4 pr-4 pb-4 pl-6">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                            <div class="text-sm text-muted-foreground mb-2 md:mb-0">12/19, 2025 • 2:15 PM</div>
+                            <div class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium" style="background-color: #ED232320; color: #ED2323; border: 1px solid #ED232340;">
+                                Problem solving
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-1 text-foreground">File path issue resolution</h3>
+                        <p class="text-muted-foreground mb-6">Diagnosed and resolved Kiro file system security restrictions preventing absolute path usage.</p>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <div class="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                                    <h4 class="font-medium text-sm mb-3 text-blue-300">Creator</h4>
+                                    <p class="text-sm text-blue-300">"figure out why you can't generate the report here: /Users/willyue/Mac Data/Design/IDCG/AI Agent Tools/Kiro/Figma Design Critique/Feedback reports"</p>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+                                    <h4 class="font-medium text-sm mb-3 text-green-300">Kiro</h4>
+                                    <ul class="text-sm text-green-300 space-y-2">
+                                        <li>• Investigated Kiro file system security restrictions</li>
+                                        <li>• Identified absolute path limitation issue</li>
+                                        <li>• Implemented relative path workaround solution</li>
+                                        <li>• Updated agent hook configuration accordingly</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 3: Complex Design Critique -->
+                <div class="timeline-item relative pl-12 py-6" data-category="design" data-timestamp="2025-12-19T13:45:00">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-line"></div>
+                    <div class="bg-muted rounded-12 pt-4 pr-4 pb-4 pl-6">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                            <div class="text-sm text-muted-foreground mb-2 md:mb-0">12/19, 2025 • 1:45 PM</div>
+                            <div class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium" style="background-color: #5549B720; color: #5549B7; border: 1px solid #5549B740;">
+                                Design
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-1 text-foreground">Complex IAM interface critique</h3>
+                        <p class="text-muted-foreground mb-6">Analyzed complex IAM role creation interface with policy editor and provided comprehensive Cloudscape compliance feedback.</p>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <div class="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                                    <h4 class="font-medium text-sm mb-3 text-blue-300">Creator</h4>
+                                    <p class="text-sm text-blue-300">[Screenshot upload of IAM role creation interface with JSON policy editor]</p>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+                                    <h4 class="font-medium text-sm mb-3 text-green-300">Kiro</h4>
+                                    <ul class="text-sm text-green-300 space-y-2">
+                                        <li>• Analyzed complex multi-section form interface</li>
+                                        <li>• Identified 5 critical and 5 warning-level issues</li>
+                                        <li>• Provided comprehensive implementation roadmap</li>
+                                        <li>• Generated detailed HTML report (Score: 4/10)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 2: System Optimization -->
+                <div class="timeline-item relative pl-12 py-6" data-category="system" data-timestamp="2025-12-19T13:00:00">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-line"></div>
+                    <div class="bg-muted rounded-12 pt-4 pr-4 pb-4 pl-6">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                            <div class="text-sm text-muted-foreground mb-2 md:mb-0">12/19, 2025 • 1:00 PM</div>
+                            <div class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium" style="background-color: #EC774420; color: #EC7744; border: 1px solid #EC774440;">
+                                System
+                            </div>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-1 text-foreground">Figma critique system optimization</h3>
+                        <p class="text-muted-foreground mb-6">Updated agent hook configuration and reorganized project structure for better file management.</p>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <div class="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                                    <h4 class="font-medium text-sm mb-3 text-blue-300">Creator</h4>
+                                    <p class="text-sm text-blue-300">"update the agent hook: 1. only generate html, no .md 2. save to specific folder 3. move CloudGuard to separate location"</p>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+                                    <h4 class="font-medium text-sm mb-3 text-green-300">Kiro</h4>
+                                    <ul class="text-sm text-green-300 space-y-2">
+                                        <li>• Modified hook to generate HTML-only reports</li>
+                                        <li>• Created organized directory structure</li>
+                                        <li>• Moved CloudGuard plugin to Figma Plugins directory</li>
+                                        <li>• Updated file path configurations</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event 1: Initial Design Critique -->
+                <div class="timeline-item relative pl-12 py-6" data-category="design" data-timestamp="2025-12-19T12:30:00">
+                    <div class="timeline-dot"></div>
+                    <div class="bg-muted rounded-12 pt-4 pr-4 pb-4 pl-6">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                            <div class="text-sm text-muted-foreground mb-2 md:mb-0">12/19, 2025 • 12:30 PM</div>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-1 text-foreground">Initial design critique session</h3>
+                        <p class="text-muted-foreground mb-6">Started session with design critique testing and analyzed IAM role selection interface.</p>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <div class="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
+                                    <h4 class="font-medium text-sm mb-3 text-blue-300">Creator</h4>
+                                    <p class="text-sm text-blue-300">"let's do some design check using agent hook"</p>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
+                                    <h4 class="font-medium text-sm mb-3 text-green-300">Kiro</h4>
+                                    <ul class="text-sm text-green-300 space-y-2">
+                                        <li>• Analyzed existing Figma Design Critique hook</li>
+                                        <li>• Performed comprehensive Cloudscape compliance analysis</li>
+                                        <li>• Generated structured feedback with implementation guidance</li>
+                                        <li>• Identified areas for system improvement</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            <div class="relative" id="timeline-container">
+            </div>
+        </div>
+    </div>
+
+    <!-- Color Set Selector -->
+    <div class="text-center py-6">
+        <div class="container mx-auto px-4" style="max-width: 960px;">
+            <div class="inline-block border border-border rounded-12 px-4 py-2">
+                <select id="colorSetSelector" class="bg-transparent text-foreground border-none rounded-12 px-2 py-1 text-sm focus:outline-none" onchange="applyColorSet(this.value)">
+                    <option value="set1">Theme 1</option>
+                    <option value="set2">Theme 2</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-8 text-muted-foreground">
+        <p>Chronicle v1.0 - Generated December 19, 2025</p>
+        <p class="text-sm mt-2">Automated documentation for collaborative AI-human work sessions</p>
+    </footer>
+
+    <script>
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-button');
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active filter button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                const filter = button.dataset.filter;
+                
+                // Show/hide timeline items based on filter
+                timelineItems.forEach(item => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            });
+        });
+        
+        // Sorting functionality
+        const sortLatestBtn = document.getElementById('sort-latest');
+        const sortOldestBtn = document.getElementById('sort-oldest');
+        const timelineContainer = document.getElementById('timeline-container');
+        
+        function sortTimeline(order) {
+            const items = Array.from(timelineItems);
+            const container = timelineContainer.parentElement;
+            
+            items.sort((a, b) => {
+                const timestampA = new Date(a.dataset.timestamp);
+                const timestampB = new Date(b.dataset.timestamp);
+                
+                if (order === 'latest') {
+                    return timestampB - timestampA; // Newest first
+                } else {
+                    return timestampA - timestampB; // Oldest first
+                }
+            });
+            
+            // Re-append items in sorted order before the timeline-container
+            items.forEach(item => {
+                container.insertBefore(item, timelineContainer);
+            });
+        }
+        
+        sortLatestBtn.addEventListener('click', () => {
+            sortLatestBtn.classList.add('bg-primary', 'text-primary-foreground');
+            sortLatestBtn.classList.remove('bg-muted', 'text-muted-foreground', 'hover:bg-accent');
+            
+            sortOldestBtn.classList.remove('bg-primary', 'text-primary-foreground');
+            sortOldestBtn.classList.add('bg-muted', 'text-muted-foreground', 'hover:bg-accent');
+            
+            sortTimeline('latest');
+        });
+        
+        sortOldestBtn.addEventListener('click', () => {
+            sortOldestBtn.classList.add('bg-primary', 'text-primary-foreground');
+            sortOldestBtn.classList.remove('bg-muted', 'text-muted-foreground', 'hover:bg-accent');
+            
+            sortLatestBtn.classList.remove('bg-primary', 'text-primary-foreground');
+            sortLatestBtn.classList.add('bg-muted', 'text-muted-foreground', 'hover:bg-accent');
+            
+            sortTimeline('oldest');
+        });
+    </script>
+</body>
+</html>
+</body>
+</html>
