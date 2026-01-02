@@ -15,6 +15,8 @@ cp chronicle-embedded.kiro.hook /path/to/your/workspace/chronicle.kiro.hook
 
 That's it! Chronicle is now ready to document your sessions with consistent, professional styling.
 
+**Want to preview the latest features?** Open `Chronicle-latest-preview.html` in your browser to see exactly what your Chronicle reports will look like. This preview is always kept up-to-date with the latest version.
+
 ## 🎨 Standardized Design System (v2.1)
 
 Chronicle includes a **fixed design system** that ensures consistent, professional HTML output across all workspaces:
@@ -126,7 +128,7 @@ See `docs/Chronicle-Design-System-Guide.md` for complete setup instructions.
 ```
 Chronicle/
 ├── chronicle-embedded.kiro.hook    # 🎯 Main single-file solution
-├── Chronicle-Example.html          # 📋 Reference showcase
+├── Chronicle-latest-preview.html   # 📋 Latest features preview (always updated)
 ├── Chronicle-README.md             # 📖 Main documentation
 ├── docs/                          # 📚 Advanced documentation & tools
 │   ├── Chronicle-Design-System-Guide.md
@@ -138,6 +140,7 @@ Chronicle/
 ```
 
 **For most users**: Just grab `chronicle-embedded.kiro.hook` and you're ready to go!
+**Want to see latest features**: Open `Chronicle-latest-preview.html` in your browser!
 
 ## 🎨 Features
 
