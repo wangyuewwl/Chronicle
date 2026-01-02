@@ -47,16 +47,14 @@ Chronicle/
 ├── chronicle-embedded.kiro.hook    # 🎯 Main single-file solution (READY TO USE)
 ├── Chronicle-latest-preview.html   # 📋 Latest features preview (always updated)
 ├── Chronicle-README.md             # 📖 Main documentation
+├── WORKSPACE-GUIDE.md              # 🗺️ Quick navigation guide
 ├── docs/                          # 📚 Advanced documentation & tools
 │   ├── Chronicle-Design-System-Guide.md
 │   ├── chronicle-v2.1-locked.kiro.hook
 │   ├── setup-chronicle-design-system.sh
 │   └── [other advanced files]
-├── releases/                      # 🗂️ Version history (local only)
-│   └── v2.1/                     # Complete v2.1 snapshot
-├── experimental/                  # 🧪 Experimental features & prototypes
-│   └── chronicle-embedded-v2.2-experimental.kiro.hook
-└── archive/                      # 📦 Reference materials & legacy files
+└── releases/                      # 🗂️ Version history (local only)
+    └── v2.1/                     # Complete v2.1 snapshot
 ```
 
 **For most users**: Just grab `chronicle-embedded.kiro.hook` and you're ready to go!
