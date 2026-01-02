@@ -45,6 +45,25 @@
                     system: { bg: "#EC774420", text: "#EC7744", border: "#EC774440" },
                     problemSolving: { bg: "#ED232320", text: "#ED2323", border: "#ED232340" }
                 }
+            },
+            set3: {
+                name: "Theme - Central Dogma",
+                colors: {
+                    // Theme 3 - Bright orange with soft glowing effect on black
+                    background: "#000000",
+                    foreground: "#FF8C00", // Bright orange text
+                    muted: "#1A0A00", // Very dark orange tint
+                    mutedForeground: "#CC7000", // Dimmed orange
+                    border: "#FF8C0040", // Orange with transparency for glow
+                    primary: "#FF8C00", // Bright orange
+                    primaryForeground: "#000000",
+                    // Category colors - orange with soft glow, neon green for Kiro
+                    creator: { bg: "#FF8C0020", text: "#FF8C00", border: "#FF8C0060" },
+                    kiro: { bg: "#73EB2E20", text: "#73EB2E", border: "#73EB2E60" }, // Neon green for AI
+                    design: { bg: "#FF690020", text: "#FF6900", border: "#FF690060" },
+                    system: { bg: "#FF450020", text: "#FF4500", border: "#FF450060" },
+                    problemSolving: { bg: "#FF200020", text: "#FF2000", border: "#FF200060" }
+                }
             }
         };
 
@@ -66,17 +85,28 @@
             document.documentElement.style.setProperty('--primary', colors.primary);
             document.documentElement.style.setProperty('--primary-foreground', colors.primaryForeground);
             
-            // Apply timeline elements colors for Theme 2
+            // Apply timeline elements colors for different themes
             if (currentColorSet === 'set2') {
-                // Update timeline dots
+                // Theme 2 - Eva 01 purple accent
                 document.querySelectorAll('.timeline-dot').forEach(dot => {
                     dot.style.background = '#965FD4';
                     dot.style.borderColor = colors.background;
                 });
                 
-                // Update timeline lines
                 document.querySelectorAll('.timeline-line').forEach(line => {
                     line.style.background = '#965FD44D';
+                });
+            } else if (currentColorSet === 'set3') {
+                // Theme 3 - Central Dogma with soft glowing effects
+                document.querySelectorAll('.timeline-dot').forEach(dot => {
+                    dot.style.background = '#FF8C00';
+                    dot.style.borderColor = colors.background;
+                    dot.style.boxShadow = '0 0 15px #FF8C0060, 0 0 25px #FF8C0030'; // Soft orange glow
+                });
+                
+                document.querySelectorAll('.timeline-line').forEach(line => {
+                    line.style.background = '#FF8C0040';
+                    line.style.boxShadow = '0 0 8px #FF8C0040'; // Soft line glow
                 });
             } else {
                 // Reset to Theme 1 colors
@@ -101,28 +131,54 @@
                 return;
             }
             
-            // Theme 2 - apply custom colors
-            // Update Creator containers (blue backgrounds)
+            // Theme 2 & 3 - apply custom colors
+            // Update Creator containers (orange with soft glow for theme 3)
             document.querySelectorAll('.bg-blue-500\\/10').forEach(el => {
                 if (el.querySelector('h4') && el.querySelector('h4').textContent.includes('Creator')) {
                     el.style.backgroundColor = colors.creator.bg;
                     el.style.borderColor = colors.creator.border;
+                    if (currentColorSet === 'set3') {
+                        el.style.boxShadow = '0 0 12px #FF8C0030'; // Soft orange glow
+                    }
                     const h4 = el.querySelector('h4');
                     const p = el.querySelector('p');
-                    if (h4) h4.style.color = colors.creator.text;
-                    if (p) p.style.color = colors.creator.text;
+                    if (h4) {
+                        h4.style.color = colors.creator.text;
+                        if (currentColorSet === 'set3') {
+                            h4.style.textShadow = '0 0 8px #FF8C0060'; // Soft text glow
+                        }
+                    }
+                    if (p) {
+                        p.style.color = colors.creator.text;
+                        if (currentColorSet === 'set3') {
+                            p.style.textShadow = '0 0 6px #FF8C0040';
+                        }
+                    }
                 }
             });
             
-            // Update Kiro containers (green backgrounds)  
+            // Update Kiro containers (neon green with soft glow for theme 3)
             document.querySelectorAll('.bg-green-500\\/10').forEach(el => {
                 if (el.querySelector('h4') && el.querySelector('h4').textContent.includes('Kiro')) {
                     el.style.backgroundColor = colors.kiro.bg;
                     el.style.borderColor = colors.kiro.border;
+                    if (currentColorSet === 'set3') {
+                        el.style.boxShadow = '0 0 12px #73EB2E30'; // Soft green glow
+                    }
                     const h4 = el.querySelector('h4');
                     const content = el.querySelectorAll('li, p');
-                    if (h4) h4.style.color = colors.kiro.text;
-                    content.forEach(item => item.style.color = colors.kiro.text);
+                    if (h4) {
+                        h4.style.color = colors.kiro.text;
+                        if (currentColorSet === 'set3') {
+                            h4.style.textShadow = '0 0 8px #73EB2E60'; // Soft green text glow
+                        }
+                    }
+                    content.forEach(item => {
+                        item.style.color = colors.kiro.text;
+                        if (currentColorSet === 'set3') {
+                            item.style.textShadow = '0 0 6px #73EB2E40';
+                        }
+                    });
                 }
             });
         }
@@ -171,13 +227,21 @@
                 return;
             }
             
-            // Theme 2 - apply custom colors to filter buttons
+            // Theme 2 & 3 - apply custom colors to filter buttons
             document.querySelectorAll('.filter-button').forEach(btn => {
                 const filter = btn.dataset.filter;
                 if (filter === 'all') {
-                    btn.style.backgroundColor = '#FBE6E5';
-                    btn.style.color = '#0F0C1A';
-                    btn.style.borderColor = '#FBE6E5';
+                    if (currentColorSet === 'set2') {
+                        btn.style.backgroundColor = '#FBE6E5';
+                        btn.style.color = '#0F0C1A';
+                        btn.style.borderColor = '#FBE6E5';
+                    } else if (currentColorSet === 'set3') {
+                        btn.style.backgroundColor = '#FF8C00';
+                        btn.style.color = '#000000';
+                        btn.style.borderColor = '#FF8C00';
+                        btn.style.boxShadow = '0 0 10px #FF8C0050, inset 0 0 8px #FF8C0020'; // Soft orange glow
+                        btn.style.textShadow = '0 0 6px #FF8C0060';
+                    }
                 } else if (filter === 'design') {
                     btn.style.backgroundColor = colors.design.bg;
                     btn.style.color = colors.design.text;
@@ -193,7 +257,7 @@
                 }
             });
             
-            // Theme 2 - apply custom colors to timeline tags
+            // Theme 2 & 3 - apply custom colors to timeline tags
             document.querySelectorAll('.timeline-item .inline-flex').forEach(tag => {
                 const text = tag.textContent.toLowerCase().trim();
                 if (text === 'design') {
@@ -662,14 +726,14 @@
                 <select id="colorSetSelector" class="bg-transparent text-foreground border-none rounded-12 px-2 py-1 text-sm focus:outline-none" onchange="applyColorSet(this.value)">
                     <option value="set1">Theme - Default</option>
                     <option value="set2">Theme - Eva 01</option>
+                    <option value="set3">Theme - Central Dogma</option>
                 </select>
             </div>
         </div>
     </div>
 
     <footer class="text-center py-8 text-muted-foreground">
-        <p>Chronicle Latest Preview - Updated January 01, 2026</p>
-        <p class="text-sm mt-2">This preview is always kept current with the latest Chronicle features</p>
+        <p>Chronicle Latest Preview - 01/01, 2026</p>
     </footer>
 
     <script>
