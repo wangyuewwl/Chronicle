@@ -17,16 +17,50 @@ That's it! Chronicle is now ready to document your sessions with consistent, pro
 
 **Want to preview the latest features?** Open `Chronicle-latest-preview.html` in your browser to see exactly what your Chronicle reports will look like. This preview is always kept up-to-date with the latest version.
 
-## 🎨 Standardized Design System (v2.1)
+## 🎨 Three Beautiful Themes
 
-Chronicle includes a **fixed design system** that ensures consistent, professional HTML output across all workspaces:
+Chronicle includes **three stunning themes** with consistent, professional HTML output:
 
-- ✅ **Identical Visual Design**: Same styling, colors, and layout every time
-- ✅ **Interactive Features**: Filters, sorting, and dual themes always work
-- ✅ **Professional Quality**: Reference-level design in every workspace
-- ✅ **Zero Dependencies**: Everything embedded in one file
+### Theme - Default
+- **Classic dark theme** with blue/green accents
+- **Professional shadcn/ui styling** 
+- **Perfect for standard documentation**
 
-**No more inconsistent HTML output!** Every Chronicle report looks exactly like the reference design.
+### Theme - Eva 01  
+- **Purple-tinted dark theme** with elegant colors
+- **Sophisticated visual hierarchy**
+- **Inspired by modern design systems**
+
+### Theme - Central Dogma ⭐ *Latest*
+- **Pure black background** (#000000) for maximum contrast
+- **Bright orange** (#FF8C00) for human/Creator interactions with **soft glowing effects**
+- **Electric green** (#73EB2E) for AI/Kiro interactions with **soft glowing effects**
+- **Futuristic cyberpunk aesthetic** with realistic lighting
+- **Enhanced visual distinction** between human and AI content
+
+**No more inconsistent HTML output!** Every Chronicle report looks exactly like the reference design with beautiful theme switching.
+
+## 📁 Repository Structure
+
+```
+Chronicle/
+├── chronicle-embedded.kiro.hook    # 🎯 Main single-file solution (READY TO USE)
+├── Chronicle-latest-preview.html   # 📋 Latest features preview (always updated)
+├── Chronicle-README.md             # 📖 Main documentation
+├── docs/                          # 📚 Advanced documentation & tools
+│   ├── Chronicle-Design-System-Guide.md
+│   ├── chronicle-v2.1-locked.kiro.hook
+│   ├── setup-chronicle-design-system.sh
+│   └── [other advanced files]
+├── releases/                      # 🗂️ Version history (local only)
+│   └── v2.1/                     # Complete v2.1 snapshot
+├── experimental/                  # 🧪 Experimental features & prototypes
+│   └── chronicle-embedded-v2.2-experimental.kiro.hook
+└── archive/                      # 📦 Reference materials & legacy files
+```
+
+**For most users**: Just grab `chronicle-embedded.kiro.hook` and you're ready to go!
+**Want to see latest features**: Open `Chronicle-latest-preview.html` in your browser!
 
 ## 🎯 Purpose
 
@@ -95,6 +129,7 @@ Chronicle generates two complementary report formats:
 - Timeline graphics
 - Searchable content
 - Print-friendly layout
+- **Three beautiful themes** with smooth switching
 
 ## 🚀 How to Use
 
@@ -123,25 +158,6 @@ For advanced users who want to customize the design system:
 
 See `docs/Chronicle-Design-System-Guide.md` for complete setup instructions.
 
-## 📁 Repository Structure
-
-```
-Chronicle/
-├── chronicle-embedded.kiro.hook    # 🎯 Main single-file solution
-├── Chronicle-latest-preview.html   # 📋 Latest features preview (always updated)
-├── Chronicle-README.md             # 📖 Main documentation
-├── docs/                          # 📚 Advanced documentation & tools
-│   ├── Chronicle-Design-System-Guide.md
-│   ├── chronicle-v2.1-locked.kiro.hook
-│   ├── setup-chronicle-design-system.sh
-│   └── [other advanced files]
-└── releases/                      # 🗂️ Version history (local only)
-    └── v2.1/                     # Complete v2.1 snapshot
-```
-
-**For most users**: Just grab `chronicle-embedded.kiro.hook` and you're ready to go!
-**Want to see latest features**: Open `Chronicle-latest-preview.html` in your browser!
-
 ## 🎨 Features
 
 - **Auto-Detection**: Identifies project type and customizes documentation
@@ -150,17 +166,20 @@ Chronicle/
 - **Reflection Questions**: Continuous improvement prompts
 - **Tags & Categories**: Easy searching and organization
 - **Quantitative Metrics**: Files created, time spent, complexity analysis
+- **Three Beautiful Themes**: Default, Eva 01, and Central Dogma with glowing effects
+- **Interactive Elements**: Filters, sorting, timeline navigation
 
 ## 🔧 Technical Details
 
-- **Version**: v2.1 with Embedded Design System
+- **Version**: v2.1 with Enhanced Central Dogma Theme
 - **Hook Type**: Manual trigger
 - **Analysis Scope**: Full conversation history
 - **Output Location**: Current workspace
 - **File Naming**: `chronicle-[SESSION-TOPIC]-[TIMESTAMP].html`
 - **Dependencies**: Zero - everything embedded in one file
 - **Design System**: Locked template with consistent styling
-- **Interactive Features**: Filters, sorting, dual themes, responsive design
+- **Interactive Features**: Filters, sorting, three themes, responsive design
+- **Enhanced Visuals**: Soft glowing effects, realistic lighting, cyberpunk aesthetics
 
 ## 💡 Use Cases
 
@@ -171,7 +190,18 @@ Chronicle/
 - **Portfolio Building**: Showcase problem-solving capabilities
 - **Training Material**: Real-world examples of AI-human collaboration
 
+## 🎨 Theme Showcase
+
+### Central Dogma Theme Features:
+- **Pure black background** for maximum contrast
+- **Soft glowing orange** for human interactions
+- **Electric green glow** for AI interactions  
+- **Enhanced visual effects**: Box shadows, text shadows, realistic lighting
+- **Futuristic aesthetic**: Cyberpunk-inspired design elements
+- **Professional polish**: Balanced brightness and visual hierarchy
+
 ---
 
-*Chronicle v2.1 - Created January 1, 2026*  
-*Automated Documentation with Standardized Design System*
+*Chronicle v2.1 - Enhanced with Central Dogma Theme*  
+*Created January 1, 2026*  
+*Automated Documentation with Beautiful Glowing Effects*
